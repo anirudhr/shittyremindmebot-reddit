@@ -91,14 +91,14 @@ class Search(object):
                 self.comment.permalink = "http://www.reddit.com/r/ShittyRemindMeBot/"
 
         # remove RemindMe! and everything before
-        match = re.search(r'PleaseRemindMe!', self.comment.body)
+        match = re.search(r'HeyDudeRemindMeOfThis!', self.comment.body)
         tempString = self.comment.body[match.start():]
 
         # Use message default if not found
         messageInputTemp = re.search('(["].{0,9000}["])', tempString)
         if messageInputTemp:
             self._messageInput = messageInputTemp.group()
-        # Remove RemindMe! #############Ani thinks this next line just removes "PleaseRemindMe!"
+        # Remove RemindMe! #############Ani thinks this next line just removes "HeyDudeRemindMeOfThis!"
         self._storeTime = re.sub('(["].{0,9000}["])', '', tempString)[15:]
     def save_to_db(self):
         """
@@ -114,7 +114,7 @@ class Search(object):
         # Converting time
         #9999/12/31 HH/MM/SS
         self._replyDate = time.strftime('%Y-%m-%d %H:%M:%S', holdTime[0])
-        cmd = "INSERT INTO message_date (permalink, message, new_date, userID) VALUES (%s, %s, %s, %s)"
+        cmd = "INSERT INTO message_data (permalink, message, new_date, userID) VALUES (%s, %s, %s, %s)"
         self._addToDB.cursor.execute(cmd, (
                         self.comment.permalink, 
                         self._messageInput, 
@@ -138,7 +138,7 @@ class Search(object):
             #"[^([FAQs])](http://www.reddit.com/r/ShittyRemindMeBot/) ^| "
             "[^([Custom Reminder])](http://www.reddit.com/message/compose/?to=ShittyRemindMeBot&subject=Reminder&message="
             "[LINK INSIDE SQUARE BRACKETS else default to FAQs]%0A%0ANOTE: Don't forget to add the time options after the command."
-            "%0A%0APleaseRemindMe!) ^| "
+            "%0A%0AHeyDudeRemindMeOfThis!) ^| "
             #"[^([Feedback])](http://www.reddit.com/message/compose/?to=peatbull&subject=Feedback) ^| "
             "[^([Code])](https://github.com/anirudhr/shittyremindmebot-reddit)"
         )
@@ -146,7 +146,7 @@ class Search(object):
         if self._privateMessage == False:
             remindMeMessage = (
                 "\n\n[**CLICK THIS LINK**](http://www.reddit.com/message/compose/?to=ShittyRemindMeBot&subject=Reminder&message="
-                "[{permalink}]%0A%0APleaseRemindMe! {time}) to send a PM to also be reminded and to reduce spam.").format(
+                "[{permalink}]%0A%0AHeyDudeRemindMeOfThis! {time}) to send a PM to also be reminded and to reduce spam.").format(
                     permalink=permalink,
                     time=self._storeTime.replace('\n', '')
                 )
@@ -202,7 +202,7 @@ class ReadPM(Thread):
             try:
                 for comment in reddit.get_unread(unset_has_mail=True, update_user=True):
                     redditPM = Search(comment)
-                    if "PleaseRemindMe!" in comment.body and str(type(comment)) == "<class 'praw.objects.Message'>":
+                    if "HeyDudeRemindMeOfThis!" in comment.body and str(type(comment)) == "<class 'praw.objects.Message'>":
                         redditPM.run(privateMessage=True)
                         comment.mark_as_read()
                 time.sleep(30)
@@ -222,7 +222,7 @@ def main():
             # loop through each comment
             for comment in praw.helpers.comment_stream(reddit, 'all', limit=None, verbosity=0):
                 redditCall = Search(comment)
-                if ("PleaseRemindMe!" in comment.body and 
+                if ("HeyDudeRemindMeOfThis!" in comment.body and 
                     redditCall.comment.id not in redditCall.commented and
                     'ShittyRemindMeBot' != str(comment.author)):
                         print "in"

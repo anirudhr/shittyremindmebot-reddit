@@ -62,7 +62,7 @@ class Reply(object):
             #"[^([FAQs])](http://www.reddit.com/r/ShittyRemindMeBot/) ^| "
             "[^([Custom Reminder])](http://www.reddit.com/message/compose/?to=ShittyRemindMeBot&subject=Reminder&message="
             "[LINK INSIDE SQUARE BRACKETS else default to FAQs]%0A%0ANOTE: Don't forget to add the time options after the command."
-            "%0A%0APleaseRemindMe!) ^| "
+            "%0A%0AHeyDudeRemindMeOfThis!) ^| "
             #"[^([Feedback])](http://www.reddit.com/message/compose/?to=peatbull&subject=Feedback) ^| "
             "[^([Code])](https://github.com/anirudhr/shittyremindmebot-reddit)"
             )
@@ -94,7 +94,7 @@ class Reply(object):
         # get current time to compare
         currentTime = datetime.now(timezone('UTC'))
         currentTime = format(currentTime, '%Y-%m-%d %H:%M:%S')
-        cmd = "SELECT * FROM message_date WHERE new_date < %s"
+        cmd = "SELECT * FROM message_data WHERE new_date < %s"
         self._queryDB.cursor.execute(cmd, [currentTime])
 
     def search_db(self):
@@ -113,7 +113,7 @@ class Reply(object):
                 flagDelete = self.new_reply(row[1],row[2], row[4])
                 # removes row based on flagDelete
                 if flagDelete:
-                    cmd = "DELETE FROM message_date WHERE id = %s" 
+                    cmd = "DELETE FROM message_data WHERE id = %s" 
                     self._queryDB.cursor.execute(cmd, [row[0]])
                     self._queryDB.connection.commit()
                 alreadyCommented.append(row[0])
