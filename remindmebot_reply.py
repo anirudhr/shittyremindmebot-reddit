@@ -45,7 +45,7 @@ class Connect(object):
 
     def __init__(self):
         self.connection = MySQLdb.connect(
-            host="localhost", user=DB_USER, passwd=DB_PASS, db="bot"
+            host="localhost", user=DB_USER, passwd=DB_PASS, db="ShittyRemindMeBotDB"
         )
         self.cursor = self.connection.cursor()
 
@@ -59,11 +59,11 @@ class Reply(object):
             "\n\n**And I'm not so sure, but this was probably your original comment:** \n\n>{original}"
             "\n\n**The parent comment from your original whatever:** \n\n>{parent}"
             "\n\n_____\n\n"
-            #"[^([FAQs])](http://www.reddit.com/r/RemindMeBot/comments/24duzp/remindmebot_info/) ^| "
+            #"[^([FAQs])](http://www.reddit.com/r/ShittyRemindMeBot/) ^| "
             "[^([Custom Reminder])](http://www.reddit.com/message/compose/?to=ShittyRemindMeBot&subject=Reminder&message="
             "[LINK INSIDE SQUARE BRACKETS else default to FAQs]%0A%0ANOTE: Don't forget to add the time options after the command."
             "%0A%0APleaseRemindMe!) ^| "
-            #"[^([Feedback])](http://www.reddit.com/message/compose/?to=RemindMeBotWrangler&subject=Feedback) ^| "
+            #"[^([Feedback])](http://www.reddit.com/message/compose/?to=peatbull&subject=Feedback) ^| "
             "[^([Code])](https://github.com/anirudhr/remindmebot-reddit)"
             )
 

@@ -47,7 +47,7 @@ class Connect(object):
 
     def __init__(self):
         self.connection = MySQLdb.connect(
-            host="localhost", user=DB_USER, passwd=DB_PASS, db="bot"
+            host="localhost", user=DB_USER, passwd=DB_PASS, db="ShittyRemindMeBotDB"
         )
         self.cursor = self.connection.cursor()
 
@@ -85,10 +85,10 @@ class Search(object):
                 try:
                     urllib.urlopen(self.comment.permalink)
                 except IOError:
-                    self.comment.permalink = "http://www.reddit.com/r/RemindMeBot/comments/24duzp/remindmebot_info/"
+                    self.comment.permalink = "http://www.reddit.com/r/ShittyRemindMeBot/"
             else:
                 # Defaults when the user doesn't provide a link
-                self.comment.permalink = "http://www.reddit.com/r/RemindMeBot/comments/24duzp/remindmebot_info/"
+                self.comment.permalink = "http://www.reddit.com/r/ShittyRemindMeBot/"
 
         # remove RemindMe! and everything before
         match = re.search(r'PleaseRemindMe!', self.comment.body)
@@ -135,11 +135,11 @@ class Search(object):
             " to remind you of [**this comment.**]({commentPermalink}). Let's see how this goes. I'm not making any promises."
             "{remindMeMessage}"
             "\n\n_____\n\n"
-            #"[^([FAQs])](http://www.reddit.com/r/RemindMeBot/comments/24duzp/remindmebot_info/) ^| "
+            #"[^([FAQs])](http://www.reddit.com/r/ShittyRemindMeBot/) ^| "
             "[^([Custom Reminder])](http://www.reddit.com/message/compose/?to=ShittyRemindMeBot&subject=Reminder&message="
             "[LINK INSIDE SQUARE BRACKETS else default to FAQs]%0A%0ANOTE: Don't forget to add the time options after the command."
             "%0A%0APleaseRemindMe!) ^| "
-            #"[^([Feedback])](http://www.reddit.com/message/compose/?to=RemindMeBotWrangler&subject=Feedback) ^| "
+            #"[^([Feedback])](http://www.reddit.com/message/compose/?to=peatbull&subject=Feedback) ^| "
             "[^([Code])](https://github.com/anirudhr/remindmebot-reddit)"
         )
 
@@ -202,7 +202,7 @@ class ReadPM(Thread):
             try:
                 for comment in reddit.get_unread(unset_has_mail=True, update_user=True):
                     redditPM = Search(comment)
-                    if "RemindMe!" in comment.body and str(type(comment)) == "<class 'praw.objects.Message'>":
+                    if "PleaseRemindMe!" in comment.body and str(type(comment)) == "<class 'praw.objects.Message'>":
                         redditPM.run(privateMessage=True)
                         comment.mark_as_read()
                 time.sleep(30)
