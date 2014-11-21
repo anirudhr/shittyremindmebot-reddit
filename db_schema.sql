@@ -1,8 +1,8 @@
 CREATE DATABASE IF NOT EXISTS ShittyRemindMeBotDB;
 USE ShittyRemindMeBotDB;
 
-DROP TABLE IF EXISTS message_date;
-CREATE TABLE message_date   (
+DROP TABLE IF EXISTS message_data;
+CREATE TABLE message_data   (
                                 id INT AUTO_INCREMENT NOT NULL,
                                 permalink VARCHAR(100),
                                 message LONGTEXT,
