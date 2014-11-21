@@ -20,10 +20,10 @@ from pytz import timezone
 
 # Reads the config file
 config = ConfigParser.ConfigParser()
-config.read("remindmebot.cfg")
+config.read("shittyremindmebot.cfg")
 
 #Reddit info
-user_agent = ("RemindMeBot v2.0 by /u/RemindMeBotWrangler")
+user_agent = ("ShittyRemindMeBot v1.0 by anirudhr (Forked from RemindMeBot by /u/RemindMeBotWrangler)")
 reddit = praw.Reddit(user_agent = user_agent)
 USER = config.get("Reddit", "username")
 PASS = config.get("Reddit", "password")
@@ -54,17 +54,17 @@ class Reply(object):
     def __init__(self):
         self._queryDB = Connect()
         self._replyMessage =(
-            "RemindMeBot here!" 
-            "\n\n**Your message:** \n\n>{message}"
-            "\n\n**Your original comment:** \n\n>{original}"
-            "\n\n**The parent comment from your original comment or its submission:** \n\n>{parent}"
+            "ShittyRemindMeBot here!" 
+            "\n\n**Umm, I think this was your message:** \n\n>{message}"
+            "\n\n**And I'm not so sure, but this was probably your original comment:** \n\n>{original}"
+            "\n\n**The parent comment from your original whatever:** \n\n>{parent}"
             "\n\n_____\n\n"
-            "[^([FAQs])](http://www.reddit.com/r/RemindMeBot/comments/24duzp/remindmebot_info/) ^| "
-            "[^([Custom Reminder])](http://www.reddit.com/message/compose/?to=RemindMeBot&subject=Reminder&message="
+            #"[^([FAQs])](http://www.reddit.com/r/RemindMeBot/comments/24duzp/remindmebot_info/) ^| "
+            "[^([Custom Reminder])](http://www.reddit.com/message/compose/?to=ShittyRemindMeBot&subject=Reminder&message="
             "[LINK INSIDE SQUARE BRACKETS else default to FAQs]%0A%0ANOTE: Don't forget to add the time options after the command."
-            "%0A%0ARemindMe!) ^| "
-            "[^([Feedback])](http://www.reddit.com/message/compose/?to=RemindMeBotWrangler&subject=Feedback) ^| "
-            "[^([Code])](https://github.com/SIlver--/remindmebot-reddit)"
+            "%0A%0APleaseRemindMe!) ^| "
+            #"[^([Feedback])](http://www.reddit.com/message/compose/?to=RemindMeBotWrangler&subject=Feedback) ^| "
+            "[^([Code])](https://github.com/anirudhr/remindmebot-reddit)"
             )
 
     def parent_comment(self, dbPermalink):
@@ -135,7 +135,7 @@ class Reply(object):
         print author
         print permalink
         try:
-            reddit.send_message(author, 'Hello, ' + author + ' RemindMeBot Here!', 
+            reddit.send_message(author, 'Hello, ' + author + ' ShittyRemindMeBot Here!', 
                 self._replyMessage.format(
                     message=message,
                     original=permalink,

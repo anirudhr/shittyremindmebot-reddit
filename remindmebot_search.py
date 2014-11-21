@@ -24,10 +24,10 @@ from threading import Thread
 
 # Reads the config file
 config = ConfigParser.ConfigParser()
-config.read("remindmebot.cfg")
+config.read("shittyremindmebot.cfg")
 
 #Reddit info
-user_agent = ("RemindMeBot v2.0 by /u/RemindMeBotWrangler")
+user_agent = ("ShittyRemindMeBot v1.0 by anirudhr (Forked from RemindMeBot by /u/RemindMeBotWrangler)")
 reddit = praw.Reddit(user_agent = user_agent)
 USER = config.get("Reddit", "username")
 PASS = config.get("Reddit", "password")
@@ -91,14 +91,14 @@ class Search(object):
                 self.comment.permalink = "http://www.reddit.com/r/RemindMeBot/comments/24duzp/remindmebot_info/"
 
         # remove RemindMe! and everything before
-        match = re.search(r'RemindMe!', self.comment.body)
+        match = re.search(r'PleaseRemindMe!', self.comment.body)
         tempString = self.comment.body[match.start():]
 
         # Use message default if not found
         messageInputTemp = re.search('(["].{0,9000}["])', tempString)
         if messageInputTemp:
             self._messageInput = messageInputTemp.group()
-        # Remove RemindMe!
+        # Remove RemindMe! #############ANI READ THIS AND FIGURE IT OUT PLZ
         self._storeTime = re.sub('(["].{0,9000}["])', '', tempString)[9:]
     def save_to_db(self):
         """
@@ -131,22 +131,22 @@ class Search(object):
         """
         permalink = self.comment.permalink
         self._replyMessage =(
-            "Messaging you on [**{0} UTC**](http://www.wolframalpha.com/input/?i={0} UTC To Local Time)"
-            " to remind you of [**this comment.**]({commentPermalink})"
+            "I'll try to message you on [**{0} UTC**](http://www.wolframalpha.com/input/?i={0} UTC To Local Time)"
+            " to remind you of [**this comment.**]({commentPermalink}). Let's see how this goes. I'm not making any promises."
             "{remindMeMessage}"
             "\n\n_____\n\n"
-            "[^([FAQs])](http://www.reddit.com/r/RemindMeBot/comments/24duzp/remindmebot_info/) ^| "
-            "[^([Custom Reminder])](http://www.reddit.com/message/compose/?to=RemindMeBot&subject=Reminder&message="
+            #"[^([FAQs])](http://www.reddit.com/r/RemindMeBot/comments/24duzp/remindmebot_info/) ^| "
+            "[^([Custom Reminder])](http://www.reddit.com/message/compose/?to=ShittyRemindMeBot&subject=Reminder&message="
             "[LINK INSIDE SQUARE BRACKETS else default to FAQs]%0A%0ANOTE: Don't forget to add the time options after the command."
-            "%0A%0ARemindMe!) ^| "
-            "[^([Feedback])](http://www.reddit.com/message/compose/?to=RemindMeBotWrangler&subject=Feedback) ^| "
-            "[^([Code])](https://github.com/SIlver--/remindmebot-reddit)"
+            "%0A%0APleaseRemindMe!) ^| "
+            #"[^([Feedback])](http://www.reddit.com/message/compose/?to=RemindMeBotWrangler&subject=Feedback) ^| "
+            "[^([Code])](https://github.com/anirudhr/remindmebot-reddit)"
         )
 
         if self._privateMessage == False:
             remindMeMessage = (
-                "\n\n[**CLICK THIS LINK**](http://www.reddit.com/message/compose/?to=RemindMeBot&subject=Reminder&message="
-                "[{permalink}]%0A%0ARemindMe! {time}) to send a PM to also be reminded and to reduce spam.").format(
+                "\n\n[**CLICK THIS LINK**](http://www.reddit.com/message/compose/?to=ShittyRemindMeBot&subject=Reminder&message="
+                "[{permalink}]%0A%0APleaseRemindMe! {time}) to send a PM to also be reminded and to reduce spam.").format(
                     permalink=permalink,
                     time=self._storeTime.replace('\n', '')
                 )
@@ -171,18 +171,18 @@ class Search(object):
                     self.comment.reply(self._replyMessage)
                     self.subId.append(sub.id)
                 else:
-                    reddit.send_message(author, 'Hello, ' + str(author) + ' RemindMeBot Confirmation Sent', self._replyMessage)
+                    reddit.send_message(author, 'Hello, ' + str(author) + ' ShittyRemindMeBot Confirmation Sent', self._replyMessage)
             else:
-                reddit.send_message(author, 'Hello, ' + str(author) + ' RemindMeBot Confirmation Sent', self._replyMessage)
+                reddit.send_message(author, 'Hello, ' + str(author) + ' ShittyRemindMeBot Confirmation Sent', self._replyMessage)
         except (HTTPError, ConnectionError, Timeout, timeout) as err:
             print err
             # PM instead if the banned from the subreddit
             if str(err) == "403 Client Error: Forbidden":
-                reddit.send_message(author, 'Hello, ' + str(author) + ' RemindMeBot Confirmation Sent', self._replyMessage)
+                reddit.send_message(author, 'Hello, ' + str(author) + ' ShittyRemindMeBot Confirmation Sent', self._replyMessage)
         except RateLimitExceeded as err:
             print err
             # PM when I message too much
-            reddit.send_message(author, 'Hello, ' + str(author) + ' RemindMeBot Confirmation Sent', self._replyMessage)
+            reddit.send_message(author, 'Hello, ' + str(author) + ' ShittyRemindMeBot Confirmation Sent', self._replyMessage)
             time.sleep(10)
         except APIException as err: # Catch any less specific API errors
             print err
@@ -222,9 +222,9 @@ def main():
             # loop through each comment
             for comment in praw.helpers.comment_stream(reddit, 'all', limit=None, verbosity=0):
                 redditCall = Search(comment)
-                if ("RemindMe!" in comment.body and 
+                if ("PleaseRemindMe!" in comment.body and 
                     redditCall.comment.id not in redditCall.commented and
-                    'RemindMeBot' != str(comment.author)):
+                    'ShittyRemindMeBot' != str(comment.author)):
                         print "in"
                         t = Thread(target=redditCall.run())
                         t.start()
