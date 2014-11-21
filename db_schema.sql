@@ -3,9 +3,9 @@ USE ShittyRemindMeBotDB;
 
 DROP TABLE IF EXISTS message_date;
 CREATE TABLE message_date   (
-                                id,
-                                permalink,
-                                message,
-                                new_date,
-                                userID
+                                id INT AUTO_INCREMENT NOT NULL,
+                                permalink VARCHAR(100),
+                                message LONGTEXT,
+                                new_date DATETIME,
+                                userID VARCHAR(20)
                             );
