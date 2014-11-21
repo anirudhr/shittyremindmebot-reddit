@@ -7,5 +7,6 @@ CREATE TABLE message_date   (
                                 permalink VARCHAR(100),
                                 message LONGTEXT,
                                 new_date DATETIME,
-                                userID VARCHAR(20)
+                                userID VARCHAR(20),
+                                PRIMARY KEY (id)
                             );
