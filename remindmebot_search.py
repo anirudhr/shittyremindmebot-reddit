@@ -98,8 +98,8 @@ class Search(object):
         messageInputTemp = re.search('(["].{0,9000}["])', tempString)
         if messageInputTemp:
             self._messageInput = messageInputTemp.group()
-        # Remove RemindMe! #############ANI READ THIS AND FIGURE IT OUT PLZ
-        self._storeTime = re.sub('(["].{0,9000}["])', '', tempString)[9:]
+        # Remove RemindMe! #############Ani thinks this next line just removes "PleaseRemindMe!"
+        self._storeTime = re.sub('(["].{0,9000}["])', '', tempString)[15:]
     def save_to_db(self):
         """
         Saves the permalink comment, the time, and the message to the DB
@@ -140,7 +140,7 @@ class Search(object):
             "[LINK INSIDE SQUARE BRACKETS else default to FAQs]%0A%0ANOTE: Don't forget to add the time options after the command."
             "%0A%0APleaseRemindMe!) ^| "
             #"[^([Feedback])](http://www.reddit.com/message/compose/?to=peatbull&subject=Feedback) ^| "
-            "[^([Code])](https://github.com/anirudhr/remindmebot-reddit)"
+            "[^([Code])](https://github.com/anirudhr/shittyremindmebot-reddit)"
         )
 
         if self._privateMessage == False:

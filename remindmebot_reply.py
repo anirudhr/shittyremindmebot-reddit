@@ -64,7 +64,7 @@ class Reply(object):
             "[LINK INSIDE SQUARE BRACKETS else default to FAQs]%0A%0ANOTE: Don't forget to add the time options after the command."
             "%0A%0APleaseRemindMe!) ^| "
             #"[^([Feedback])](http://www.reddit.com/message/compose/?to=peatbull&subject=Feedback) ^| "
-            "[^([Code])](https://github.com/anirudhr/remindmebot-reddit)"
+            "[^([Code])](https://github.com/anirudhr/shittyremindmebot-reddit)"
             )
 
     def parent_comment(self, dbPermalink):
