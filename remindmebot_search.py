@@ -117,8 +117,8 @@ class Search(object):
         cmd = "INSERT INTO message_data (permalink, message, new_date, userID) VALUES (%s, %s, %s, %s)"
         self._addToDB.cursor.execute(cmd, (
                         self.comment.permalink, 
-                        self._messageInput, 
-                        self._replyDate, 
+                        self._messageInput, #To add Shittiness, can we mangle this in some inventive way?
+                        self._replyDate, #Shittiness must go here
                         self.comment.author))
         self._addToDB.connection.commit()
         self._addToDB.connection.close()
