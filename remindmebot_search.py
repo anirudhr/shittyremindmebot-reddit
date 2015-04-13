@@ -58,7 +58,7 @@ class Search(object):
     def __init__(self, comment):
         self._addToDB = Connect()
         self.comment = comment # Reddit comment Object
-        self._messageInput = '"Hello, I\'m here to remind you to see the parent comment!"'
+        self._messageInput = '"Umm, okay. I don\'t know if I can do a better job than that guy, but I will try."' #Shittiness must go here
         self._storeTime = None
         self._replyMessage = ""
         self._replyDate = None
@@ -91,15 +91,15 @@ class Search(object):
                 self.comment.permalink = "http://www.reddit.com/r/ShittyRemindMeBot/"
 
         # remove RemindMe! and everything before
-        match = re.search(r'HeyDudeRemindMeOfThis!', self.comment.body)
+        match = re.search(r'RemindMe!', self.comment.body)
         tempString = self.comment.body[match.start():]
 
         # Use message default if not found
         messageInputTemp = re.search('(["].{0,9000}["])', tempString)
         if messageInputTemp:
             self._messageInput = messageInputTemp.group()
-        # Remove RemindMe! #############Ani thinks this next line just removes "HeyDudeRemindMeOfThis!"
-        self._storeTime = re.sub('(["].{0,9000}["])', '', tempString)[15:]
+        # Remove RemindMe!
+         self._storeTime = re.sub('(["].{0,9000}["])', '', tempString)[9:]
     def save_to_db(self):
         """
         Saves the permalink comment, the time, and the message to the DB
@@ -113,12 +113,12 @@ class Search(object):
             holdTime = cal.parse(self._storeTime, datetime.now(timezone('UTC')))
         # Converting time
         #9999/12/31 HH/MM/SS
-        self._replyDate = time.strftime('%Y-%m-%d %H:%M:%S', holdTime[0])
+        self._replyDate = time.strftime('%Y-%m-%d %H:%M:%S', holdTime[0]) #Shittiness must go here
         cmd = "INSERT INTO message_data (permalink, message, new_date, userID) VALUES (%s, %s, %s, %s)"
         self._addToDB.cursor.execute(cmd, (
                         self.comment.permalink, 
-                        self._messageInput, #To add Shittiness, can we mangle this in some inventive way?
-                        self._replyDate, #Shittiness must go here
+                        self._messageInput,
+                        self._replyDate, 
                         self.comment.author))
         self._addToDB.connection.commit()
         self._addToDB.connection.close()
